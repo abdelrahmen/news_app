@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/cubit/states.dart';
@@ -27,17 +26,12 @@ class NewsCubit extends Cubit<NewsState> {
       icon: Icon(Icons.science),
       label: 'Science',
     ),
-    BottomNavigationBarItem(
-      icon: Icon(Icons.settings),
-      label: 'settings',
-    ),
   ];
 
   List<Widget> screens = [
     BusinessScreen(),
     SportsScreen(),
     ScienceScreen(),
-    SettingsScreen(),
   ];
   void changeBottomNavBar(int index) {
     currentIndex = index;
@@ -121,12 +115,32 @@ class NewsCubit extends Cubit<NewsState> {
         science = value.data['articles'];
         print(science[0]['title']);
         emit(NewsGetScienceSuccessState());
-      }).catchError((error) {
+      }).catchError((error) { 
         emit(NewsGetScienceErrorState());
         print(error.toString());
       });
     } else {
       emit(NewsGetScienceSuccessState());
     }
+  }
+
+  List search = [];
+  void getSearch(value){
+    emit(NewsGetSearchLoadingState());
+    DioHelper.getData(
+        url: '/v2/everything',
+        query: {
+          'q': '$value',
+          'apiKey': '8b0c8fd9904b48cabc66f935c81d4224',
+        },
+      ).then((value) {
+        //print(value.data['articles'][0]['title']);
+        search = value.data['articles'];
+        print(search[0]['title']);
+        emit(NewsGetSearchSuccessState());
+      }).catchError((error) { 
+        emit(NewsGetSearchErrorState());
+        print(error.toString());
+      });
   }
 }

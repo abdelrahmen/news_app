@@ -21,3 +21,13 @@ class NewsGetScienceLoadingState extends NewsState{}
 class NewsGetScienceSuccessState extends NewsState{}
 
 class NewsGetScienceErrorState extends NewsState{}
+
+class NewsChangeAppModeState extends NewsState{}
+
+class InitialDarkModeState extends NewsState{}
+
+class NewsGetSearchLoadingState extends NewsState{}
+
+class NewsGetSearchSuccessState extends NewsState{}
+
+class NewsGetSearchErrorState extends NewsState{}
